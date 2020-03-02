@@ -146,8 +146,8 @@ module ``03: Putting the Function into Functional Programming`` =
     let ``20 Functions have types`` () =
         let a x y = x + "cabbage" + y
         let b r = 50.0 / r
-        a |> should be ofType<_>
-        b |> should be ofType<_>
+        a |> should be ofType<string->string->string>
+        b |> should be ofType<float->float>
 
 
     [<Test>]
@@ -167,9 +167,9 @@ module ``03: Putting the Function into Functional Programming`` =
         let somefunc x y = x + y x
         let square v = v * v
         somefunc 3 square |> should equal 12
-        somefunc 3 ((*) 7) |> should equal __
-        somefunc 10 ((+) 8) |> should equal __
-        somefunc 5 (fun z -> z + 22) |> should equal __
+        somefunc 3 ((*) 7) |> should equal 24
+        somefunc 10 ((+) 8) |> should equal 28
+        somefunc 5 (fun z -> z + 22) |> should equal 32
 
    (*
        Did you know that operators like +, -, =, >, and so on, are actually
@@ -224,9 +224,9 @@ module ``03: Putting the Function into Functional Programming`` =
     let ``24 The output type of one pipe must be the input type to the next`` () =
         let a x = x * 2.5
         let b x = x = 7.5
-        a |> should be ofType<int>
-        b |> should be ofType<float>
-        __ |> __ |> __ |> should equal true
+        a |> should be ofType<float -> float>
+        b |> should be ofType<float -> bool>
+        3.0 |> a |> b |> should equal true
 
     (*
         The backwards-pipe operator takes:
@@ -381,7 +381,7 @@ module ``03: Putting the Function into Functional Programming`` =
         // Extending a bit more, what do you do when you want to apply a function,
         // but modify the result before you give it back?
         let f animal noise = animal + " says " + noise
-        let cows = f "cow"  // <-- multiple words on this line, or you may want to make this a multi-line thing.  You MUST use `f`.
+        let cows = fun h -> f "cow" (sprintf "%s, de gozaru" h) // <-- multiple words on this line, or you may want to make this a multi-line thing.  You MUST use `f`.
         cows "moo" |> should equal "cow says moo, de gozaru"
         cows "MOOooOO" |> should equal "cow says MOOooOO, de gozaru"
 
