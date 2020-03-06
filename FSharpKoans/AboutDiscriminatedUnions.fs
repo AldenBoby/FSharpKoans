@@ -86,5 +86,5 @@ module ``07: The Good Kind of Discrimination`` =
             match x with
             | Empty -> 0
             | Node (_, a, b) -> 1 + max (depth a) (depth b)
-        let a = __ // <-- you may want to spread this over multiple lines and/or let-bindings ...!
+        let a = Node ("hello",Node("what",Node("final",Node("Too many",Empty,Empty),Empty),Empty),Node("what",Empty,Node("last",Empty,Empty))) // <-- you may want to spread this over multiple lines and/or let-bindings ...!
         depth a |> should equal 4
