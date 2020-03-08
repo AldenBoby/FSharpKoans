@@ -300,7 +300,7 @@ module ``03: Putting the Function into Functional Programming`` =
     [<Test>]
     let ``29 Unit, as an input, conveys no data`` () = 
         let sayHello () = "hello"
-        sayHello |> should be ofType<_>
+        sayHello |> should be ofType<unit->string>
         sayHello () |> should be ofType<string>
         sayHello () |> should equal "hello"
 
@@ -333,10 +333,10 @@ module ``03: Putting the Function into Functional Programming`` =
         let divideBy10 n () =
             n / 10
         let deferred = divideBy10 700
-        divideBy10 |> should be ofType<_>
-        deferred |> should be ofType<_>
-        divideBy10 850 |> should be ofType<_>
-        deferred () |> should be ofType<_>
+        divideBy10 |> should be ofType<int->unit->int>
+        deferred |> should be ofType<unit->int>
+        divideBy10 850 |> should be ofType<unit->int>
+        deferred () |> should be ofType<int>
         deferred () |> should equal 70
         divideBy10 6300 () |> should equal 630
 
