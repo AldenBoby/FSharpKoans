@@ -43,6 +43,10 @@ open NUnit.Framework
 *)
 
 module ``08: Parametric polymorphism`` =
+    open System.Reflection.Metadata.Ecma335
+    open System
+    open System
+
     (*
         The next test demonstrates *type inference*.
         
@@ -94,22 +98,22 @@ module ``08: Parametric polymorphism`` =
         let a = Secnod (6.55, 7)
         let b = Thrid (fun k -> true, k, 8)
         // how do you write a generic type?
-        a |> should be ofType<float->int->int>
-        b |> should be ofType<int->int>
+        a |> should be ofType<GenericDiscriminatedUnionExample<float,int>>
+        b |> should be ofType<unit->bool*int*int>
 
     type MyDiscriminatedUnion =
-    | Furoth of FILL_ME_IN
+    | Furoth of number:int
     | Fevi
-    | Sxi of FILL_ME_IN
+    | Sxi of name:string
 
     [<Test>]
     let ``05 Creating a generic discriminated union (Part 2).`` () =
         // You need to edit the definition of MyDiscriminatedUnion first!  It's just above this test.
-        let a = __
-        let b = __
-        let c = __
-        let d = __
-        match a with
+        let a = Furoth (number=7)
+        let b = Sxi (name="bleh")
+        let c = Furoth 8
+        let d = Sxi (name="yes")
+        match a with 
         | Furoth n -> n |> should equal 7
         | _ -> Assert.Fail ()
         match b with

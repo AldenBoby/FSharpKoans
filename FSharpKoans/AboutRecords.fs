@@ -41,15 +41,15 @@ module ``13: On the Record`` =
                 Author="Michel Foucault"
                 Year=1975
             }
-        myRecord |> should be ofType<FILL_ME_IN>
-        myOtherRecord |> should be ofType<FILL_ME_IN>
+        myRecord |> should be ofType<Pokemon>
+        myOtherRecord |> should be ofType<Book>
 
     [<Test>]
     let ``03 Decomposing with a record pattern`` () =
         let book = { Title="Dune"; Author="Frank Herbert"; Year=1965 }
-        let __ = book
-        __ |> should equal "Dune" // DO NOT use a . symbol in your answer
-        __ |> should equal 1965 // DO NOT use a . symbol in your answer
+        let Record = book
+        ___ |> should equal "Dune" // DO NOT use a . symbol in your answer
+        ___ |> should equal 1965 // DO NOT use a . symbol in your answer
 
     [<Test>]
     let ``04 Decomposing in a match expression`` () =
@@ -58,13 +58,13 @@ module ``13: On the Record`` =
             | { Name="Pikachu"; Attack=a } -> a/2
             | { Name="Raichu"; Attack=a } -> a/3
             | { Attack=blah; Defense=lol } -> (blah + lol) / 2
-        result |> should equal __
+        result |> should equal 30
 
     [<Test>]
     let ``05 Accessing record members using dot syntax`` () =
         let book = { Title="Tigana"; Author="Guy Gavriel Kay"; Year=1990 }
-        let k = __
-        let j = __
+        let k = book.Title
+        let j = book.Year
         k |> should equal "Tigana"
         j |> should equal 1990
 
@@ -74,9 +74,9 @@ module ``13: On the Record`` =
         let second = { first with Title="A Clash of Kings"; Year=first.Year+2 } // <-- Pssst - see what I did here?
         let third = { second with Title="A Storm of Swords"; Year=2000 }
         let {Year=y0}, {Year=y1}, {Year=y2} = first, second, third
-        y0 |> should equal __
-        y1 |> should equal __
-        y2 |> should equal __
+        y0 |> should equal 1996
+        y1 |> should equal 1998
+        y2 |> should equal 2000
 
     (*
         "The as-pattern is a pattern that has an as clause appended to it.
@@ -88,8 +88,8 @@ module ``13: On the Record`` =
 
     [<Test>]
     let ``07 Binding composed and decomposed structures using 'as'`` () =
-      let f (___ as _____) =
-         { __ with Year = __ + 3 }
+      let f ({Year=y} as r) =
+         { r with Year = y + 3 }
       f { Title="A Wizard of Earthsea"; Author="Ursula K. LeGuin"; Year=1968 }
       |> should equal { Title="A Wizard of Earthsea"; Author = "Ursula K. LeGuin"; Year = 1971 }
 
