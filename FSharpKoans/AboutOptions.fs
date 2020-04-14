@@ -67,7 +67,8 @@ module ``09: Exploring types, options, and results`` =
     let ``04 Parsing a string safely`` () =
         let parse (s:string) =
             match System.Int32.TryParse s with
-            | _ -> __ // <-- fill in the match cases
+            | (true,a) -> Some (a) 
+            | _ -> None// <-- fill in the match cases
         parse "25" |> should equal (Some 25)
         parse "48" |> should equal (Some 48)
         parse "wut" |> should equal None
@@ -76,7 +77,8 @@ module ``09: Exploring types, options, and results`` =
     let ``05 Remapping Option values`` () =
       let f n =
          match getSurname n with
-         | _ -> __ // <-- write a bunch of good match cases
+         | None -> "[no surname]"
+         | Some n -> n.ToString()  // <-- write a bunch of good match cases
       f "Anubis" |> should equal "[no surname]"
       f "Niccolo Machiavelli" |> should equal "Machiavelli"
       f "Mara Jade" |> should equal "Jade"
