@@ -377,14 +377,14 @@ or something else), it's likely that you'll be able to use a fold.
         // - why can't it take an 'a->'b, instead of an 'a->'b option ?
         // - why does it return a 'b list, and not a 'b list option ?
         let choose (p : 'a -> 'b option) (xs : 'a list) : 'b list =
-            let rec pick list newlist = 
+            let rec chooze list newlist = 
                 match list with 
                 | [] -> List.rev newlist
                 | h::t -> match p h with
-                          | None -> pick t newlist
+                          | None -> chooze t newlist
                           | Some h -> let newlist = h::newlist
-                                      pick t newlist
-            pick xs [] // Does this: https://msdn.microsoft.com/en-us/library/ee353456.aspx
+                                      chooze t newlist
+            chooze xs [] // Does this: https://msdn.microsoft.com/en-us/library/ee353456.aspx
         let f x =
             match x<=45 with
             | true -> Some(x*2)
@@ -402,12 +402,13 @@ or something else), it's likely that you'll be able to use a fold.
     [<Test>]
     let ``24 mapi: like map, but passes along an item index as well`` () =
         let mapi (f : int -> 'a -> 'b) (xs : 'a list) : 'b list =
-             __(*let rec mapin list newlist = 
+             let rec mapi count list newlist = 
                 match list with 
-                | [] -> List.rev []
-                | h::t -> let valu = f (h)
-             mapin xs []
-                          // Does this: https://msdn.microsoft.com/en-us/library/ee353425.aspx*)
+                | [] -> List.rev newlist
+                | h::t -> let valu = f count h 
+                          let newlist = valu::newlist
+                          mapi (count+1) t newlist
+             mapi 0 xs [] // Does this: https://msdn.microsoft.com/en-us/library/ee353425.aspx
         mapi (fun i x -> -i, x+1) [9;8;7;6] |> should equal [0,10; -1,9; -2,8; -3,7]
         let hailstone i t =
             match i%2 with
